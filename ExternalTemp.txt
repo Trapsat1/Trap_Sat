@@ -1,0 +1,27 @@
+/*Temperature Sensing with the TMP36 */
+
+int tempPin = 0; //Reading from analog pin 0
+
+void setup() {
+  pinMode(tempPin,INPUT); //Setting analog pin to Input  
+Serial.begin(9600); //Starting communication with serial monitor at baud rate 9600
+}
+
+void loop() {
+  tempRead(); //Everything happens here
+}
+
+
+
+
+
+
+void tempRead() 
+{
+int reading = analogRead(tempPin); //1-Taking in values through the A/D converter from 0 to 1023 
+  float voltage = reading*(5.0/1024.0); //2-Multiplying reading by voltage step size to get voltage
+  float TempC = (voltage*100)-50; //3-Plugging voltage into sensor-specific formula to get temperature in degrees Celsius 
+  float TempF = (1.8*TempC)+32; //4-Converting degrees Celsius to Fahrenheit
+  Serial.println(TempF); //5-Printing temperature reading to serial monitor, one reading per line
+  delay(500); //6-Time delay in milliseconds to better observe readings
+}
