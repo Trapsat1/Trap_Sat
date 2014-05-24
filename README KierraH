@@ -1,0 +1,8 @@
+/*********************************************
+My current task for the Trap Sat Project is to 
+write the code for the onboard temperature reading, 
+then store to the sd card (txt file); this requires 
+some knowledge of the processor itself and the 
+ability to read and understand the provided 
+documentation 
+*********************************************/
