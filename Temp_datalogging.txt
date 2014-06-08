@@ -1,0 +1,72 @@
+/*Temperature Sensing/Datalogging with the TMP36 */
+
+#include <FileIO.h>
+
+int tempPin = A0; //Reading from analog pin 0
+
+void setup() 
+{  
+pinMode(tempPin,INPUT); //Setting analog pin to Input  
+Bridge.begin();
+FileSystem.begin();
+Serial.begin(9600);//Starting communication with serial monitor at baud rate 9600
+while(!Serial);
+}
+
+void loop() 
+{
+  String dataString;
+  dataString += getTimeStamp();
+  dataString += " = ";
+  float TempF = tempRead();
+  dataString += String(TempF);
+  
+  File dataFile = FileSystem.open("/mnt/sd/datalog.txt", FILE_APPEND);
+  
+  if (dataFile) {
+    dataFile.println(dataString);
+    dataFile.close();
+    // print to the serial port too:
+    Serial.println(dataString);
+  }
+  else {
+    Serial.println("error opening datalog.txt");
+}
+
+delay(10000);
+}
+
+
+
+
+
+float tempRead() 
+{
+float reading = analogRead(tempPin); //1-Taking in values through the A/D converter from 0 to 1023 
+  float voltage = reading*(5.0/1024.0); //2-Multiplying reading by voltage step size to get voltage
+  float TempC = (voltage*100.0)-50.0; //3-Plugging voltage into sensor-specific formula to get temperature in degrees Celsius 
+  float TempF = (1.8*TempC)+32.0; //4-Converting degrees Celsius to Fahrenheit
+ return TempF;
+  
+}
+
+
+String getTimeStamp() {
+  String result;
+  Process time;
+  // date is a command line utility to get the date and the time
+  // in different formats depending on the additional parameter
+  time.begin("date");
+  time.addParameter("+%D-%T");  // parameters: D for the complete date mm/dd/yy
+  //             T for the time hh:mm:ss
+  time.run();  // run the command
+
+  // read the output of the command
+  while (time.available() > 0) {
+    char c = time.read();
+    if (c != '\n')
+      result += c;
+  }
+
+  return result;
+}
