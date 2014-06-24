@@ -5,11 +5,9 @@
 
   This library will be used to take and store pictures using the Arduino YUN and a USB webcam.
 */
-#include <String.h> // Not sure if best practice
-#include <Process.h>
-#include <Bridge.h>
 
 #include "CameraMod.h"
+#include "Bridge.h"
 
 CameraMod::CameraMod() // Constructor
 {
@@ -22,14 +20,15 @@ void CameraMod::SetName(String n) // used to set the name of the picture
 }
 
 void CameraMod::SetDir(String dir)  // used to set the directory where the file should be stored
-{
+{ 
+  //if (!FileSystem.exists(dir)) // ignore these two lines for now. 
+    ///FileSystem.mkdir();     // they only accept const char array pointers, not strings for whatever reason.
   location = location + dir + "/"; // since location is already set to the root of the SD, this is really meant to add a folder, 
                    // or multiple folders to the directory path
 }
 
 void CameraMod::TakePic()
 {
-  Process pic; // Starts a Linux process named pic
   pic.begin("fswebcam"); // Uses the fswebcam command
   pic.addParameter(location + filename); // Adds a paramater to fswebcam. This is the full directory path where the file will be saved.
   pic.run(); // Actually runs the pic process on the Linux processor. !!!This command will halt the program until complete!!!
