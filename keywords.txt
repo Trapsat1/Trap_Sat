@@ -1,0 +1,24 @@
+
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+CameraMod	KEYWORD1
+TempSensor	KEYWORD1
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+SetName	KEYWORD2
+SetDir	KEYWORD2
+TakePic	KEYWORD2
+GetPic	KEYWORD2
+TrapSat	KEYWORD2
+getTemp 	KEYWORD2
+storeTemp 	KEYWORD2
+######################################
+# Constants (LITERAL1)
+#######################################
+
